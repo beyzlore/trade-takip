@@ -115,17 +115,17 @@ def hero(eq, total, spy_v, cap):
     diff = ret - spy_ret
     sure = f"{days} gün" if days < 10 else f"{round(days / 5)} hafta"
     sure_de = sure + ("de" if days < 10 else "da")
-    lead = (f"9 Ekim'de {usd(cap)} ile başladılar. {sure_de} "
-            + (f"<b class='pos'>{usd(r_pnl)} kazandılar</b>." if r_pnl >= 0 else f"<b class='neg'>{usd(-r_pnl)} kaybettiler</b>."))
+    lead = (f"9 Ekim'de {usd(cap)} ile başladı. {sure_de} "
+            + (f"<b class='pos'>{usd(r_pnl)} kazandı</b>." if r_pnl >= 0 else f"<b class='neg'>{usd(-r_pnl)} kaybetti</b>."))
     if abs(diff) < 0.01:
-        head = "Başa baş, robotlar azıcık " + ("önde." if diff >= 0 else "geride.")
+        head = "Başa baş, Cartis azıcık " + ("önde." if diff >= 0 else "geride.")
     elif diff > 0:
-        head = "Robotlar borsadan iyi gidiyor."
+        head = "Cartis borsadan iyi gidiyor."
     else:
-        head = "Robotlar borsanın gerisinde."
+        head = "Cartis borsanın gerisinde."
     cls = "good" if diff >= 0 else ("warn" if diff > -0.03 else "bad")
     body = (f" Hiçbir şey yapmadan borsayı alıp bekleseydin {usd(abs(s_pnl))} "
-            f"{'kazanacaktın' if s_pnl >= 0 else 'kaybedecektin'}; robotlar {usd(abs(r_pnl - s_pnl))} "
+            f"{'kazanacaktın' if s_pnl >= 0 else 'kaybedecektin'}; Cartis {usd(abs(r_pnl - s_pnl))} "
             f"{'daha iyi' if r_pnl >= s_pnl else 'daha kötü'}.")
     if days < 60:
         body += f" {sure} çok kısa; birkaç ay görmeden \"işe yarıyor\" demek için erken."
@@ -225,7 +225,7 @@ def _ek(n):
 
 def emirler(pending, last_px):
     if not pending:
-        return "<div class='empty'>Robotlar bir sonraki gün hiçbir şey yapmayacak; ellerindekileri tutmaya devam ediyorlar.</div>"
+        return "<div class='empty'>Cartis bir sonraki gün hiçbir şey yapmayacak; elindekileri tutmaya devam ediyor.</div>"
     rows = []
     for o in sorted(pending, key=lambda o: (o.side != "SAT", ORDER.index(o.sleeve))):
         r = ROBOT[o.sleeve]
@@ -268,7 +268,7 @@ def sonraki_acilis(asof):
 
 def elindekiler(st, last_px):
     if not st.positions:
-        return "<div class='empty'>Robotların elinde şu an hiçbir şey yok; para nakitte bekliyor.</div>"
+        return "<div class='empty'>Cartis'in elinde şu an hiçbir şey yok; para nakitte bekliyor.</div>"
     items = []
     for ps in st.positions:
         px = last_px.get(ps.ticker, np.nan)
@@ -305,9 +305,9 @@ def ozet(eq, asof, up_e, brief_html):
         fiil = "kazandı" if rr >= 0 else "kaybetti"
         if (rr < 0) == (sr < 0) and abs(sr) >= 0.002:
             kar = "daha az " if abs(rr) < abs(sr) else "daha çok "
-            out.append(f"Robotlar aynı gün {kar}{fiil}: <b>{yuzde(abs(rr), 1, False)}</b>.")
+            out.append(f"Cartis aynı gün {kar}{fiil}: <b>{yuzde(abs(rr), 1, False)}</b>.")
         else:
-            out.append(f"Robotlar aynı gün <b>{yuzde(abs(rr), 1, False)} {fiil}</b>.")
+            out.append(f"Cartis aynı gün <b>{yuzde(abs(rr), 1, False)} {fiil}</b>.")
     names = []
     for t in up_e["ticker"].tolist() if len(up_e) else []:
         n = ad(t)
@@ -318,7 +318,7 @@ def ozet(eq, asof, up_e, brief_html):
         lst = names[0] if len(names) == 1 else ", ".join(names[:-1]) + " ve " + names[-1]
         out.append(f"Önümüzdeki günlerde {esc(lst)} karnelerini açıklayacak. Karne Avcısı bunları bekliyor.")
     ps = "".join(f"<p><span class='n'>{k + 1}</span>{x}</p>" for k, x in enumerate(out))
-    return ps + "<div class='byline'>Robotların verisinden otomatik yazıldı</div>"
+    return ps + "<div class='byline'>Cartis'in verisinden otomatik yazıldı</div>"
 
 
 # ---------------------------------------------------------------- güven karnesi
