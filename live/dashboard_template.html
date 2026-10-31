@@ -12,145 +12,258 @@
 :root {
   color-scheme: light;
   --bg: #f4f3f0; --surface: #ffffff; --surface-2: #f0efec; --line: #e4e2dc;
-  --text: #0b0b0b; --text-2: #52514e; --muted: #7a7974;
-  --s1: #2a78d6; --bench: #8a8984;
-  --good: #0ca30c; --good-ink: #006300; --warn: #fab219; --warn-ink: #7a5200; --bad: #d03b3b; --bad-ink: #a82828;
-  --pos-bg: #dceafb; --neg-bg: #fbe1e0; --buy: #2a78d6; --sell: #d03b3b;
+  --text: #141413; --text-2: #52514e; --muted: #7a7974;
+  --blue: #2a78d6; --blue-bg: #e3eefb; --grey: #9a9994;
+  --good: #0ca30c; --good-ink: #006300; --good-bg: #e2f5e2;
+  --warn: #fab219; --warn-ink: #7a5200; --warn-bg: #fdf1d4;
+  --bad: #d03b3b; --bad-ink: #a82828; --bad-bg: #fbe1e0;
+  --pos-bg: #dceafb; --neg-bg: #fbe1e0;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --bg: #121211; --surface: #1a1a19; --surface-2: #232321; --line: #34332f;
-    --text: #ffffff; --text-2: #c3c2b7; --muted: #8f8e86; --s1: #3987e5; --bench: #8f8e86;
-    --good-ink: #5fd35f; --warn-ink: #fab219; --bad-ink: #f07a7a; --pos-bg: #183454; --neg-bg: #4a1f1f;
-    --buy: #3987e5; --sell: #e66767;
+    --bg: #121211; --surface: #1c1c1a; --surface-2: #262624; --line: #353430;
+    --text: #f6f5f0; --text-2: #c3c2b7; --muted: #8f8e86;
+    --blue: #4a94ea; --blue-bg: #17304d; --grey: #8f8e86;
+    --good-ink: #6bd86b; --good-bg: #173a17; --warn-ink: #fab219; --warn-bg: #3d3010; --bad-ink: #f07a7a; --bad-bg: #4a1f1f;
+    --pos-bg: #183454; --neg-bg: #4a1f1f;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #121211; --surface: #1a1a19; --surface-2: #232321; --line: #34332f;
-  --text: #ffffff; --text-2: #c3c2b7; --muted: #8f8e86; --s1: #3987e5; --bench: #8f8e86;
-  --good-ink: #5fd35f; --warn-ink: #fab219; --bad-ink: #f07a7a; --pos-bg: #183454; --neg-bg: #4a1f1f;
-  --buy: #3987e5; --sell: #e66767;
+  --bg: #121211; --surface: #1c1c1a; --surface-2: #262624; --line: #353430;
+  --text: #f6f5f0; --text-2: #c3c2b7; --muted: #8f8e86;
+  --blue: #4a94ea; --blue-bg: #17304d; --grey: #8f8e86;
+  --good-ink: #6bd86b; --good-bg: #173a17; --warn-ink: #fab219; --warn-bg: #3d3010; --bad-ink: #f07a7a; --bad-bg: #4a1f1f;
+  --pos-bg: #183454; --neg-bg: #4a1f1f;
 }
 * { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
-header { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line); }
-.hwrap { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.logo { font-weight: 800; font-size: 19px; letter-spacing: -.01em; }
-.logo span { color: var(--s1); }
-.upd { color: var(--text-2); font-size: 13px; }
-nav { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
-nav a { font-size: 13px; color: var(--text-2); text-decoration: none; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); }
-nav a:hover { color: var(--text); }
-main { max-width: 1100px; margin: 0 auto; padding: 18px 16px 60px; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.chip { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 13px; color: var(--text-2); }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; -webkit-text-size-adjust: 100%; }
+a { color: var(--blue); }
+.wrap { max-width: 640px; margin: 0 auto; padding: 0 16px 60px; }
+header { display: flex; align-items: center; gap: 10px; padding: 14px 0 10px; }
+.logo { font-weight: 800; font-size: 21px; letter-spacing: -.01em; }
+.logo span { color: var(--blue); }
+.upd { font-size: 13px; color: var(--muted); }
+.help { margin-left: auto; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface);
+  color: var(--text); font-size: 16px; font-weight: 700; cursor: pointer; }
+.game { background: var(--surface-2); border-radius: 12px; padding: 9px 12px; font-size: 13.5px; color: var(--text-2); margin-bottom: 14px; }
+.game b { color: var(--text); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 14px; }
+h2 { font-size: 19px; margin: 26px 0 4px; letter-spacing: -.01em; }
+.sub { color: var(--text-2); font-size: 14px; margin: 0 0 12px; }
+.lbl { font-size: 13px; color: var(--text-2); }
+.big { font-size: 40px; font-weight: 800; line-height: 1.1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; margin: 2px 0 6px; }
+.lead { font-size: 16px; margin: 0; }
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0 6px; }
+.vs div { border-radius: 12px; padding: 10px 12px; background: var(--surface-2); }
+.vs div.me { background: var(--blue-bg); }
+.vs span { display: block; font-size: 13px; color: var(--text-2); }
+.vs b { font-size: 20px; font-variant-numeric: tabular-nums; }
+.verdict { display: flex; gap: 10px; align-items: flex-start; border-radius: 12px; padding: 10px 12px; margin-top: 12px; font-size: 14.5px; }
+.verdict.good { background: var(--good-bg); } .verdict.warn { background: var(--warn-bg); } .verdict.bad { background: var(--bad-bg); }
+.light { flex: none; width: 12px; height: 12px; border-radius: 50%; margin-top: 6px; }
+.light.good { background: var(--good); } .light.warn { background: var(--warn); } .light.bad { background: var(--bad); }
+#chart { margin-top: 12px; position: relative; }
+#chart svg text { font-size: 12px; }
+#chart .tip { position: absolute; top: 0; pointer-events: none; background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  padding: 6px 9px; font-size: 12.5px; box-shadow: 0 4px 16px rgba(0,0,0,.12); display: none; white-space: nowrap; }
+.weather { display: flex; gap: 14px; align-items: center; }
+.weather .ico { font-size: 46px; line-height: 1; }
+.weather h3 { margin: 0; font-size: 20px; }
+.weather p { margin: 2px 0 0; font-size: 14.5px; color: var(--text-2); }
+.gauges { display: grid; gap: 12px; margin-top: 14px; }
+.g .top { display: flex; justify-content: space-between; gap: 8px; font-size: 14px; }
+.g .top b { white-space: nowrap; }
+.bar { position: relative; height: 10px; border-radius: 99px; margin-top: 6px;
+  background: linear-gradient(90deg, var(--good) 0 50%, var(--warn) 50% 75%, var(--bad) 75% 100%); opacity: .85; }
+.bar i { position: absolute; top: -4px; width: 4px; height: 18px; border-radius: 2px; background: var(--text); transform: translateX(-2px); }
+.scale { position: relative; height: 16px; font-size: 11.5px; color: var(--muted); margin-top: 3px; }
+.scale span { position: absolute; top: 0; }
+.scale span[style*="%"] { transform: translateX(-50%); }
+.robot { display: grid; grid-template-columns: 52px 1fr; gap: 0 12px; }
+.ava { width: 52px; height: 52px; border-radius: 16px; background: var(--surface-2); display: grid; place-items: center; font-size: 28px; }
+.rhead { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rhead h3 { margin: 0; font-size: 17px; }
+.status { font-size: 12.5px; font-weight: 700; padding: 3px 10px; border-radius: 99px; white-space: nowrap; }
+.status.good { background: var(--good-bg); color: var(--good-ink); } .status.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.status.bad { background: var(--bad-bg); color: var(--bad-ink); }
+.rule { font-size: 14.5px; color: var(--text-2); margin: 4px 0 0; }
+.rstats { grid-column: 1 / 3; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.rstats div { background: var(--surface-2); border-radius: 12px; padding: 8px 12px; }
+.rstats span { display: block; font-size: 12.5px; color: var(--text-2); }
+.rstats b { font-size: 17px; font-variant-numeric: tabular-nums; }
+.score { grid-column: 1 / 3; margin-top: 12px; font-size: 14px; }
+.dots { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0 4px; }
+.dots i { width: 14px; height: 14px; border-radius: 50%; }
+.dots i.w { background: var(--good); } .dots i.l { background: var(--bad); }
+.rnote { grid-column: 1 / 3; margin-top: 10px; font-size: 14px; border-left: 3px solid var(--warn); padding: 2px 0 2px 10px; color: var(--text-2); }
+.rnote.bad { border-color: var(--bad); }
+.pos { color: var(--good-ink); } .neg { color: var(--bad-ink); }
+.todo { list-style: none; margin: 0; padding: 0; }
+.todo li { display: grid; grid-template-columns: 54px 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.todo li:first-child { padding-top: 0; } .todo li:last-child { border-bottom: 0; padding-bottom: 0; }
+.act { font-size: 12.5px; font-weight: 800; text-align: center; border-radius: 8px; padding: 4px 0; align-self: start; color: #fff; }
+.act.buy { background: var(--blue); } .act.sell { background: var(--bad); }
+.todo p { margin: 0; font-size: 15px; } .todo small { display: block; color: var(--text-2); font-size: 13.5px; margin-top: 2px; }
+.today p { margin: 0 0 8px; font-size: 15.5px; } .today p:last-of-type { margin: 0; }
+.today .n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--blue-bg); color: var(--blue);
+  font-size: 13px; font-weight: 800; margin-right: 6px; }
+.byline { font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+.holds { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.hold { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; font-size: 14px; }
+.hold b { display: block; } .hold span { font-size: 12.5px; color: var(--text-2); }
+.hold b span { font-size: 14px; display: inline; }
+.hold > span { display: block; }
+.term { text-decoration: underline dotted var(--muted); text-underline-offset: 3px; cursor: help; }
+.gloss dt { font-weight: 700; margin-top: 10px; } .gloss dt:first-child { margin-top: 0; } .gloss dd { margin: 2px 0 0; color: var(--text-2); font-size: 14.5px; }
+footer { margin-top: 22px; color: var(--muted); font-size: 12.5px; }
+.sheet { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); width: min(560px, calc(100% - 32px)); z-index: 20;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; box-shadow: 0 10px 40px rgba(0,0,0,.2); display: none; }
+.sheet b { display: block; font-size: 16px; margin-bottom: 2px; padding-right: 24px; } .sheet p { margin: 0; font-size: 15px; color: var(--text-2); }
+.sheet button { position: absolute; top: 8px; right: 10px; border: 0; background: none; font-size: 20px; color: var(--muted); cursor: pointer; }
+.tour { position: fixed; inset: 0; z-index: 30; background: rgba(0,0,0,.45); display: none; align-items: center; justify-content: center; padding: 16px; }
+.tour.on { display: flex; }
+.tbox { background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 26px 22px 20px; width: min(420px, 100%); text-align: center; }
+.tbox .ti { font-size: 52px; line-height: 1; }
+.tbox h3 { font-size: 21px; margin: 12px 0 6px; } .tbox p { margin: 0; color: var(--text-2); font-size: 15.5px; min-height: 96px; }
+.tdots { display: flex; gap: 6px; justify-content: center; margin: 16px 0; }
+.tdots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); } .tdots i.on { background: var(--blue); width: 22px; border-radius: 99px; }
+.tbtns { display: flex; gap: 10px; }
+.tbtns button { flex: 1; border-radius: 12px; padding: 12px; font-size: 15px; font-weight: 700; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--text); }
+.tbtns button.pri { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+/* ---- uzman görünümü (eski pano) ---- */
+details.expert { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; margin-top: 26px; }
+details.expert > summary { cursor: pointer; padding: 16px; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+details.expert > summary::-webkit-details-marker { display: none; }
+details.expert > summary::after { content: "+"; font-size: 20px; line-height: 1; color: var(--muted); }
+details.expert[open] > summary::after { content: "–"; }
+details.expert > summary small { font-weight: 400; color: var(--text-2); display: block; font-size: 13px; }
+.xin { padding: 0 16px 16px; font-size: 14px; }
+.xin h2 { font-size: 16px; margin: 22px 0 8px; display: flex; align-items: center; gap: 8px; }
+.xin section:first-child h2 { margin-top: 4px; }
+.xin h2 .count { font-size: 12px; background: var(--surface-2); border-radius: 999px; padding: 1px 8px; color: var(--text-2); font-weight: 600; }
+.panel { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: var(--surface-2); border-radius: 999px; padding: 5px 11px; font-size: 13px; color: var(--text-2); }
 .chip b { color: var(--text); }
 .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
 .dot.good { background: var(--good); } .dot.warn { background: var(--warn); } .dot.bad { background: var(--bad); }
-.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
-.kpi span { color: var(--text-2); font-size: 13px; display: block; }
-.kpi b { display: block; font-size: clamp(20px, 5vw, 26px); line-height: 1.2; font-variant-numeric: tabular-nums; }
-.kpi small { display: block; color: var(--muted); font-size: 12px; }
-section { margin-top: 22px; }
-h2 { font-size: 17px; margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
-h2 .count { font-size: 12px; background: var(--surface-2); border-radius: 999px; padding: 1px 8px; color: var(--text-2); }
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
-.grid2 { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; }
 .orders { list-style: none; margin: 0; padding: 0; }
 .ord { display: grid; grid-template-columns: auto auto 1fr; gap: 2px 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
 .ord:last-child { border-bottom: 0; }
 .ord .muted { font-size: 13px; }
 .ord .why { grid-column: 2 / 4; font-size: 13px; color: var(--text-2); }
 .pill { font-size: 12px; font-weight: 800; border-radius: 6px; padding: 2px 8px; color: #fff; grid-row: span 2; align-self: start; margin-top: 2px; }
-.pill.buy { background: var(--buy); } .pill.sell { background: var(--sell); }
-.empty { color: var(--text-2); font-size: 14px; padding: 10px 0; }
+.pill.buy { background: var(--blue); } .pill.sell { background: var(--bad); }
+.empty { color: var(--text-2); font-size: 14px; padding: 6px 0; }
 .muted { color: var(--text-2); } .small { font-size: 13px; }
 .scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-table { border-collapse: collapse; width: 100%; font-size: 13.5px; }
-th, td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
 th { font-size: 12px; color: var(--text-2); font-weight: 600; }
 td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
 td.name { font-weight: 700; }
-td.pos { background: var(--pos-bg); } td.neg { background: var(--neg-bg); }
 tbody tr:last-child td { border-bottom: 0; }
-.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.scard { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
-.shead { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
+.cards, .sigs { display: grid; gap: 10px; }
+.scard, .sig { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; }
+.shead { display: flex; justify-content: space-between; gap: 8px; align-items: center; flex-wrap: wrap; }
 .srow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
 .srow div span { display: block; font-size: 11.5px; color: var(--text-2); }
-.srow div b { font-variant-numeric: tabular-nums; font-size: 15px; }
+.srow div b { font-variant-numeric: tabular-nums; font-size: 14px; }
 .srow.sub { border-top: 1px dashed var(--line); padding-top: 8px; }
-.srow.sub b { font-size: 13px; }
 .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
 .badge.good { color: var(--good-ink); border-color: var(--good); } .badge.warn { color: var(--warn-ink); border-color: var(--warn); }
 .badge.bad { color: var(--bad-ink); border-color: var(--bad); }
-.chart { position: relative; }
-.legend { display: flex; gap: 16px; font-size: 13px; color: var(--text-2); margin-bottom: 4px; }
-.legend i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 6px; }
-svg text { fill: var(--muted); font-size: 11px; }
-.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 7px 10px;
-  font-size: 12.5px; box-shadow: 0 4px 16px rgba(0,0,0,.12); display: none; min-width: 170px; }
-.tip .r { display: flex; justify-content: space-between; gap: 10px; } .tip i { display: inline-block; width: 10px; height: 3px; margin-right: 6px; vertical-align: middle; }
-.sigs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.sig { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; }
-.sig .tk { font-size: 20px; }
-.kv { display: grid; grid-template-columns: minmax(120px, 38%) 1fr; gap: 5px 12px; margin: 8px 0 0; font-size: 13.5px; }
+.sig .tk { font-size: 18px; }
+.kv { display: grid; grid-template-columns: minmax(110px, 38%) 1fr; gap: 5px 12px; margin: 8px 0 0; font-size: 13px; }
 .kv dt { color: var(--text-2); } .kv dd { margin: 0; }
 .scen { display: flex; border-radius: 8px; overflow: hidden; font-size: 12px; font-weight: 600; }
 .scen div { padding: 5px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
-.scen .up { background: var(--pos-bg); } .scen .flat { background: var(--surface-2); } .scen .down { background: var(--neg-bg); }
-.brief { font-size: 14.5px; } .brief h3 { font-size: 15px; margin: 14px 0 4px; } .brief p, .brief li { max-width: 80ch; }
-.note { background: var(--surface-2); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--text-2); margin-bottom: 12px; }
-footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
-@media (max-width: 860px) { header { position: static; } .sigs { grid-template-columns: 1fr; } .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .grid2, .cards { grid-template-columns: 1fr; } nav { margin-left: 0; } }
+.scen .up { background: var(--pos-bg); } .scen .flat { background: var(--surface); } .scen .down { background: var(--neg-bg); }
+.brief { font-size: 14px; } .brief h3 { font-size: 15px; margin: 14px 0 4px; } .brief h3:first-child { margin-top: 0; }
+.brief ul { padding-left: 20px; }
+.brief td, .brief th { white-space: normal; vertical-align: top; } .brief a { overflow-wrap: anywhere; }
+.note { background: var(--surface-2); border-radius: 10px; padding: 10px 14px; font-size: 13px; color: var(--text-2); margin-bottom: 10px; }
 </style>
 </head>
 <body>
-<header><div class="hwrap">
+<div class="wrap">
+
+<header>
   <div class="logo">Dia<span>mas</span></div>
-  <div class="upd">Piyasa verisi: <b>{{ASOF}}</b> kapanışı · güncellendi {{UPDATED}}</div>
-  <nav><a href="#sinyaller">Sinyaller</a><a href="#yarin">Yarın</a><a href="#analiz">Analiz</a><a href="#pozisyonlar">Pozisyonlar</a><a href="#stratejiler">Stratejiler</a><a href="#olaylar">Olaylar</a>
-  <a href="Strateji_Arastirma_Raporu.pdf">Tam rapor (PDF)</a></nav>
-</div></header>
-<main>
-<div class="chips">
+  <div class="upd">{{B_ASOF}}</div>
+  <button class="help" id="openTour" aria-label="Diamas nedir?">?</button>
+</header>
+
+<div class="game">🎮 <b>Bu bir oyun.</b> Gerçek para yok. Robotların yaptığı hiçbir şey sana "bunu al" tavsiyesi değildir.</div>
+
+<div class="card">
+  <div class="lbl">Robotların <span class="term" data-t="sanal">oyun parası</span></div>
+  <div class="big">{{B_TOTAL}}</div>
+  <p class="lead">{{B_LEAD}}</p>
+  <div class="vs">
+    <div class="me"><span>🤖 Robotlar</span><b class="{{B_RET_CLS}}">{{B_RET}}</b></div>
+    <div><span>📈 <span class="term" data-t="spy">Borsa</span></span><b class="{{B_SPY_CLS}}">{{B_SPY}}</b></div>
+  </div>
+  <div id="chart"><div class="tip" id="tip"></div></div>
+  {{B_VERDICT}}
+</div>
+
+<h2>Bugün 3 cümlede</h2>
+<div class="card today">{{B_OZET}}</div>
+
+<h2>Borsanın havası</h2>
+<div class="card">
+  <div class="weather"><div class="ico">{{H_ICO}}</div><div><h3>{{H_TITLE}}</h3><p>{{H_TEXT}}</p></div></div>
+  <div class="gauges">
+    <div class="g"><div class="top"><span>🧭 <span class="term" data-t="ort">Uzun vadeli yön</span></span><b class="{{H_DIR_CLS}}">{{H_DIR}}</b></div>
+      <div class="sub" style="margin:2px 0 0">{{H_DIR_TEXT}}</div></div>
+    <div class="g"><div class="top"><span>🌡️ <span class="term" data-t="vix">Korku termometresi</span></span><b>{{H_VIX}}</b></div>
+      <div class="bar"><i style="left:{{H_VIX_POS}}%"></i></div>
+      <div class="scale"><span style="left:0">sakin</span><span style="left:50%">20</span><span style="left:75%">30</span><span style="right:0">panik</span></div></div>
+  </div>
+</div>
+
+<h2>3 robot</h2>
+<p class="sub">Para üç robota eşit bölündü. Her birinin tek bir kuralı var, her gece ona bakıp karar veriyor.</p>
+{{B_ROBOTS}}
+
+<h2>{{B_NEXT_DAY}} ne olacak?</h2>
+<p class="sub">Amerikan borsası Türkiye saatiyle {{B_NEXT_TIME}}'da açılınca robotlar bunları yapacak.</p>
+<div class="card">{{B_ORDERS}}</div>
+
+<h2>Robotların elindekiler</h2>
+<p class="sub">Yeşil kârda, kırmızı zararda (aldıkları fiyata göre).</p>
+{{B_HOLDS}}
+
+<details class="expert"><summary><span>Detaylar (uzman görünümü)<small>Olasılıklar, tablolar, uzun piyasa analizi ve kaynaklar</small></span></summary>
+<div class="xin">
+
+<section><h2>Piyasa durumu</h2><div class="chips">
   <div class="chip"><span class="dot {{REGIME_CLS}}"></span>Piyasa: <b>{{REGIME}}</b> · SPY {{SPY_CLOSE}} (200g ort. göre {{SPY_VS200}})</div>
   <div class="chip"><span class="dot {{VIX_CLS}}"></span>Korku endeksi VIX: <b>{{VIX}}</b> ({{VIX_LBL}})</div>
   <div class="chip">Trend stratejisi: <b>{{TREND}}</b></div>
   <div class="chip">Dipten alım kapısı: <b>{{RSI_OK}}</b></div>
   <div class="chip">Sonraki Fed kararı: <b>{{FOMC}}</b></div>
+  <div class="chip">Açık pozisyon: <b>{{NPOS}}</b> / 21 · {{DAYS}} işlem günü · fark SPY'a göre {{DIFF}}</div>
 </div>
-
-<div class="kpis">
-  <div class="kpi"><span>Sanal portföy</span><b>{{TOTAL}}</b><small>100.000 $ ile 9 Eki 2026'da başladı</small></div>
-  <div class="kpi"><span>Başlangıçtan beri</span><b>{{RET}}</b><small>{{DAYS}} işlem günü</small></div>
-  <div class="kpi"><span>Aynı sürede SPY al-tut</span><b>{{SPY_RET}}</b><small>fark: {{DIFF}}</small></div>
-  <div class="kpi"><span>Açık pozisyon</span><b>{{NPOS}}</b><small>en fazla 21 (1 + 10 + 10)</small></div>
-</div>
+<p class="small muted">Piyasa verisi {{ASOF}} kapanışı · güncellendi {{UPDATED}}</p></section>
 
 <section id="sinyaller"><h2>Günün sinyalleri <span class="count">{{N_SIG}}</span></h2>
 <div class="note">Bu kartlar, testlerden geçmiş kuralların bugünkü kapanışa göre ürettiği sinyallerdir. Kişisel yatırım tavsiyesi değildir. Hedef, stop ve olasılıklar aynı kuralın geçmişteki gerçek sonuçlarından hesaplanır, gelecek için garanti değildir. Güven seviyesi, geçmiş örneğin büyüklüğü ve tutarlılığına göre belirlenir; kâr olasılığı anlamına gelmez.</div>
 <div class="sigs">{{SIGNALS}}</div></section>
 
-<section class="grid2" id="yarin">
-  <div><h2>Yarın açılışta yapılacaklar <span class="count">{{N_ORDERS}}</span></h2><div class="panel">{{ORDERS}}</div></div>
-  <div><h2>Sanal portföy ve SPY</h2><div class="panel chart" id="ch"><div class="legend"><span><i style="background:var(--s1)"></i>Sanal portföy</span>
-  <span><i style="background:var(--bench)"></i>SPY al-tut</span></div><div id="chsvg"></div><div class="tip" id="tip"></div></div></div>
-</section>
+<section id="yarin"><h2>Yarın açılışta yapılacaklar <span class="count">{{N_ORDERS}}</span></h2><div class="panel">{{ORDERS}}</div></section>
 
 <section id="pozisyonlar"><h2>Açık pozisyonlar</h2><div class="panel">{{POSITIONS}}</div></section>
 
 <section id="stratejiler"><h2>Stratejiler</h2><div class="cards">{{CARDS}}</div>
 <p class="muted small">"Geçmiş test" satırı stratejinin geriye dönük testteki son dönem performansıdır. Haftada bir yenilenir. Şu anki düşüş, geçmişteki en kötü düşüşü aşarsa durum <b>Alarm</b> olur. Bu, stratejinin bozulmuş olabileceğinin işaretidir.</p></section>
 
-<section class="grid2" id="olaylar">
-  <div><h2>Yaklaşan bilançolar (10 gün)</h2><div class="panel">{{EARN}}</div></div>
-  <div><h2>İzleme listesi: dipten alım adayları</h2><div class="panel">{{WATCH}}</div></div>
-</section>
+<section id="olaylar"><h2>Yaklaşan bilançolar (10 gün)</h2><div class="panel">{{EARN}}</div></section>
+<section><h2>İzleme listesi: dipten alım adayları</h2><div class="panel">{{WATCH}}</div></section>
 
 <section id="analiz"><h2>Günlük piyasa ve haber analizi</h2><div class="panel brief">{{BRIEFING}}</div></section>
 
@@ -159,33 +272,99 @@ footer { color: var(--muted); font-size: 12px; margin-top: 30px; }
 
 <section><h2>Kapanan işlemler</h2><div class="panel">{{CLOSED}}</div></section>
 
-<footer>Bu pano gerçek para kullanmaz ve hiçbir aracı kuruma emir göndermez. Sanal işlemler gerçek piyasa fiyatlarıyla, maliyetler düşülerek hesaplanır.
-Her gece (Salı–Cumartesi 01:15) otomatik güncellenir, her cumartesi tüm araştırma ve PDF rapor yeniden üretilir. Yatırım tavsiyesi değildir.</footer>
-</main>
+<p class="small"><a href="Strateji_Arastirma_Raporu.pdf">Tam araştırma raporu (PDF)</a></p>
+</div></details>
+
+<h2>Sözlük</h2>
+<p class="sub">Altı noktalı kelimelere dokununca da açıklaması çıkar.</p>
+<div class="card"><dl class="gloss" style="margin:0" id="gloss"></dl></div>
+
+<footer>Diamas gerçek para kullanmaz, hiçbir aracı kuruma emir göndermez. Sanal işlemler gerçek fiyatlarla, masraflar düşülerek hesaplanır.
+Her gece kendiliğinden güncellenir; bilgisayarın açık olması gerekmez. Yatırım tavsiyesi değildir.</footer>
+</div>
+
+<div class="sheet" id="sheet" role="dialog"><button aria-label="Kapat" id="sheetX">×</button><b id="sheetT"></b><p id="sheetP"></p></div>
+
+<div class="tour" id="tour"><div class="tbox">
+  <div class="ti" id="tI"></div><h3 id="tH"></h3><p id="tP"></p>
+  <div class="tdots" id="tD"></div>
+  <div class="tbtns"><button id="tBack">Geri</button><button class="pri" id="tNext">İleri</button></div>
+</div></div>
+
 <script>
+const G = {
+  sanal: ["Oyun parası (sanal para)", "Gerçekte olmayan, hesapta duran para. Robotlar bununla gerçek fiyatlardan alıp satıyormuş gibi yapar; kâr da zarar da sadece kâğıt üstündedir."],
+  spy: ["Borsa (SPY)", "Amerika'nın en büyük 500 şirketinden yapılmış hazır bir sepet. Tek seferde hepsinden biraz almak gibi. Robotları kıyasladığımız ölçü budur."],
+  bilanco: ["Karne (bilanço)", "Şirketlerin 3 ayda bir açıkladığı, ne kadar satış ve kâr yaptığını gösteren rapor. Beklenenden iyi gelirse hisse genelde yükselir."],
+  vix: ["Korku termometresi (VIX)", "Borsadakilerin önümüzdeki günler için ne kadar tedirgin olduğunu gösteren sayı. 20'nin altı sakin, 20–30 tedirgin, 30'un üstü panik."],
+  ort: ["Uzun vadeli yön", "Bugünkü fiyatı son 10 ayın (200 iş günü) ortalamasıyla karşılaştırırız. Fiyat ortalamanın üstündeyse genel gidiş yukarı sayılır."],
+  nakit: ["Nakitte beklemek", "Hiçbir şey almadan parayı kenarda tutmak. Kazandırmaz ama düşüşte kaybettirmez de."],
+  hisse: ["Hisse", "Bir şirketin küçük bir parçası. Şirket değer kazanırsa parçanın fiyatı da artar."],
+  sinyal: ["Sinyal", "Robotun kuralına göre \"yarın bunu yapacağım\" demesi. Senin için tavsiye değildir."],
+  acilis: ["Açılış", "Amerikan borsası Türkiye saatiyle 16:30 (kışın 17:30) açılır, 23:00 (kışın 24:00) kapanır. Robotlar kararını kapanıştan sonra verir, ertesi açılışta uygular."]
+};
+document.getElementById('gloss').innerHTML = Object.values(G).map(([t, d]) => `<dt>${t}</dt><dd>${d}</dd>`).join('');
+const sheet = document.getElementById('sheet');
+document.querySelectorAll('.term').forEach(el => el.addEventListener('click', () => {
+  const g = G[el.dataset.t]; if (!g) return;
+  document.getElementById('sheetT').textContent = g[0]; document.getElementById('sheetP').textContent = g[1]; sheet.style.display = 'block';
+}));
+document.getElementById('sheetX').onclick = () => sheet.style.display = 'none';
+
+// Tanıtım: ilk girişte bir kez gösterilir, "?" ile tekrar açılır
+const T = [
+  ["🎮", "Diamas bir oyun", "İçinde 100.000 $ oyun parası var. Gerçek para yok, hiçbir yere emir gitmiyor."],
+  ["🤖", "Parayı 3 robot yönetiyor", "Her robotun tek bir kuralı var. Her gece Amerikan borsası kapanınca kurala bakıp \"yarın şunu al, şunu sat\" diyor."],
+  ["🔍", "Amaç öğrenmek", "Bu kurallar gerçekten işe yarıyor mu? Bunu bedavaya, kendi paranı riske atmadan görmek için. Karşılaştırma hep borsanın tamamıyla yapılır."],
+  ["🚫", "Robotları taklit etme", "Buradaki AL/SAT'lar robotların kararı, sana tavsiye değil. Birkaç ay sonuç görmeden hiçbir kurala güvenme."]
+];
+const tour = document.getElementById('tour'), tI = document.getElementById('tI'), tH = document.getElementById('tH'), tP = document.getElementById('tP'),
+  tD = document.getElementById('tD'), tBack = document.getElementById('tBack'), tNext = document.getElementById('tNext'); let k = 0;
+function step(){
+  const [i, h, p] = T[k]; tI.textContent = i; tH.textContent = h; tP.textContent = p;
+  tD.innerHTML = T.map((_, j) => `<i class="${j === k ? 'on' : ''}"></i>`).join('');
+  tBack.style.visibility = k ? 'visible' : 'hidden'; tNext.textContent = k === T.length - 1 ? 'Anladım' : 'İleri';
+}
+function openTour(){ k = 0; step(); tour.classList.add('on'); }
+tNext.onclick = () => { if (k < T.length - 1) { k++; step(); } else { tour.classList.remove('on'); try { localStorage.setItem('diamas_tour', '1'); } catch (e) {} } };
+tBack.onclick = () => { if (k) { k--; step(); } };
+document.getElementById('openTour').onclick = openTour;
+let seen = false; try { seen = localStorage.getItem('diamas_tour') === '1'; } catch (e) {}
+if (!seen) openTour();
+
+// Grafik: robotlar ve borsa, uçlarında isimleri yazılı
 (function(){
-const D = {{CHART}}; const root = document.getElementById('chsvg'), tip = document.getElementById('tip');
+const D = {{CHART}};
+const AY = ["Oca","Şub","Mar","Nis","May","Haz","Tem","Ağu","Eyl","Eki","Kas","Ara"];
+const fd = s => { const [y, m, d] = s.split('-'); return +d + ' ' + AY[+m - 1]; };
+const root = document.getElementById('chart'), tip = document.getElementById('tip');
 function draw(){
-  const n = D.dates.length, W = root.clientWidth || 500, H = 220, m = {l: 54, r: 10, t: 8, b: 22};
-  if (n < 2) { root.innerHTML = `<div class="empty">Grafik ilk birkaç işlem gününden sonra oluşacak. Şu an ${n} gün var.</div>`; return; }
-  const all = D.port.concat(D.spy); let lo = Math.min(...all), hi = Math.max(...all); const pad = (hi - lo) * 0.1 || 500; lo -= pad; hi += pad;
+  const n = D.dates.length, W = root.clientWidth, H = 170, m = {l: 4, r: 74, t: 12, b: 22};
+  if (n < 2) { root.innerHTML = '<div class="empty">Grafik birkaç işlem gününden sonra oluşacak.</div>'; return; }
+  const all = D.port.concat(D.spy, [100000]); let lo = Math.min(...all), hi = Math.max(...all); const pad = (hi - lo) * .12 || 500; lo -= pad; hi += pad;
   const iw = W - m.l - m.r, ih = H - m.t - m.b, x = i => m.l + i / (n - 1) * iw, y = v => m.t + (1 - (v - lo) / (hi - lo)) * ih;
-  let s = `<svg width="${W}" height="${H}" role="img" aria-label="Sanal portföy ve SPY">`;
-  for (let k = 0; k <= 3; k++) { const v = lo + (hi - lo) * k / 3; s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${Math.round(v / 1000)}k$</text>`; }
-  s += `<text x="${m.l}" y="${H - 4}">${D.dates[0]}</text><text x="${W - m.r}" y="${H - 4}" text-anchor="end">${D.dates[n - 1]}</text>`;
-  const path = arr => arr.map((v, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ',' + y(v).toFixed(1)).join('');
-  s += `<path d="${path(D.spy)}" fill="none" stroke="var(--bench)" stroke-width="2" stroke-dasharray="4 3"/><path d="${path(D.port)}" fill="none" stroke="var(--s1)" stroke-width="2"/>`;
-  s += `<line id="xh" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" visibility="hidden"/><rect id="hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/></svg>`;
-  root.innerHTML = s; const hit = root.querySelector('#hit'), xh = root.querySelector('#xh');
-  const fmt = v => v.toLocaleString('tr-TR', {maximumFractionDigits: 0}) + ' $';
+  const path = a => a.map((v, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ',' + y(v).toFixed(1)).join('');
+  let yp = y(D.port[n - 1]), ys = y(D.spy[n - 1]);
+  if (Math.abs(yp - ys) < 16) { const mid = (yp + ys) / 2; if (yp <= ys) { yp = mid - 8; ys = mid + 8; } else { yp = mid + 8; ys = mid - 8; } }
+  let s = `<svg width="${W}" height="${H}" role="img" aria-label="Robotlar ve borsa">`;
+  s += `<line x1="${m.l}" x2="${m.l + iw}" y1="${y(100000)}" y2="${y(100000)}" stroke="var(--line)" stroke-width="1.5"/>`;
+  s += `<text x="${m.l + iw}" y="${y(100000) - 6}" text-anchor="end" fill="var(--muted)">başlangıç 100.000 $</text>`;
+  s += `<path d="${path(D.spy)}" fill="none" stroke="var(--grey)" stroke-width="2" stroke-dasharray="5 4"/>`;
+  s += `<path d="${path(D.port)}" fill="none" stroke="var(--blue)" stroke-width="2.5"/>`;
+  s += `<circle cx="${x(n - 1)}" cy="${y(D.port[n - 1])}" r="4" fill="var(--blue)"/><circle cx="${x(n - 1)}" cy="${y(D.spy[n - 1])}" r="3.5" fill="var(--grey)"/>`;
+  s += `<text x="${x(n - 1) + 8}" y="${yp + 4}" fill="var(--blue)" font-weight="700">Robotlar</text><text x="${x(n - 1) + 8}" y="${ys + 4}" fill="var(--muted)">Borsa</text>`;
+  s += `<text x="${m.l}" y="${H - 4}" fill="var(--muted)">${fd(D.dates[0])}</text><text x="${m.l + iw}" y="${H - 4}" text-anchor="end" fill="var(--muted)">${fd(D.dates[n - 1])}</text>`;
+  s += `<line id="xh" y1="${m.t}" y2="${m.t + ih}" stroke="var(--muted)" visibility="hidden"/><rect id="hit" x="${m.l}" y="0" width="${iw}" height="${H}" fill="transparent"/></svg>`;
+  root.innerHTML = s; root.appendChild(tip);
+  const hit = root.querySelector('#hit'), xh = root.querySelector('#xh'), f = v => Math.round(v).toLocaleString('tr-TR') + ' $';
   function show(e){ const r = root.getBoundingClientRect(), px = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
     const i = Math.max(0, Math.min(n - 1, Math.round((px - m.l) / iw * (n - 1)))); xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('visibility', 'visible');
-    tip.innerHTML = `<div class="muted">${D.dates[i]}</div><div class="r"><span><i style="background:var(--s1)"></i>Portföy</span><b>${fmt(D.port[i])}</b></div><div class="r"><span><i style="background:var(--bench)"></i>SPY</span><b>${fmt(D.spy[i])}</b></div>`;
-    tip.style.display = 'block'; let left = x(i) + 22; if (left + tip.offsetWidth > W) left = x(i) - tip.offsetWidth - 2; tip.style.left = left + 'px'; tip.style.top = '40px'; }
+    tip.innerHTML = `<b>${fd(D.dates[i])}</b><br>🤖 ${f(D.port[i])}<br>📈 ${f(D.spy[i])}`; tip.style.display = 'block';
+    let left = x(i) + 10; if (left + tip.offsetWidth > W) left = x(i) - tip.offsetWidth - 10; tip.style.left = left + 'px'; }
   hit.addEventListener('mousemove', show); hit.addEventListener('touchstart', show, {passive: true}); hit.addEventListener('touchmove', show, {passive: true});
   hit.addEventListener('mouseleave', () => { tip.style.display = 'none'; xh.setAttribute('visibility', 'hidden'); });
 }
-draw(); let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(draw, 150); });
+draw(); let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(draw, 150); });
 })();
 </script>
 </body>

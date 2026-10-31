@@ -52,6 +52,7 @@ class Order:
     side: str          # 'AL' / 'SAT'
     reason: str
     pos: Pos | None = None
+    info: dict = field(default_factory=dict)   # sade dil sayfası için sayılar (sürpriz, tepki, RSI)
 
 
 @dataclass
@@ -189,7 +190,8 @@ def run(p: B.Panel, earn: pd.DataFrame, vix: pd.Series):
             cands.append((abs(surpr), t, surpr, C[i, j] / C[i - 1, j] - 1))
         free = SLEEVES["pead"]["k"] - (len(held("pead")) - sum(o.side == "SAT" for o in orders if o.sleeve == "pead"))
         for _, t, surpr, rr in sorted(cands, reverse=True)[:max(free, 0)]:
-            orders.append(Order("pead", t, "AL", f"Kâr sürprizi %{surpr:.1f}, ilk gün tepkisi %{rr * 100:.1f}"))
+            orders.append(Order("pead", t, "AL", f"Kâr sürprizi %{surpr:.1f}, ilk gün tepkisi %{rr * 100:.1f}",
+                                info=dict(surprise=surpr, react=rr)))
         # --- rsi2: çıkışlar
         for ps in held("rsi2"):
             j = col[ps.ticker]
@@ -208,7 +210,7 @@ def run(p: B.Panel, earn: pd.DataFrame, vix: pd.Series):
                     cands.append((RSI[i, j], t))
         free = SLEEVES["rsi2"]["k"] - (len(held("rsi2")) - sum(o.side == "SAT" for o in orders if o.sleeve == "rsi2"))
         for r, t in sorted(cands)[:max(free, 0)]:
-            orders.append(Order("rsi2", t, "AL", f"RSI(2) = {r:.1f}, uzun vadeli trend yukarı"))
+            orders.append(Order("rsi2", t, "AL", f"RSI(2) = {r:.1f}, uzun vadeli trend yukarı", info=dict(rsi2=r)))
         pending = orders
 
     ctx = dict(spy_close=C[-1, spy], spy_sma200=S200[-1, spy], spy_sma100=sma100_spy[-1], vix=v[-1],

@@ -9,6 +9,7 @@ from __future__ import annotations
 import html
 import json
 import pickle
+import re
 import subprocess
 import sys
 import traceback
@@ -23,6 +24,7 @@ sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "live"))
 import backtest as B  # noqa: E402
 import data as D  # noqa: E402
+import basit as BS  # noqa: E402
 import engine as E  # noqa: E402
 import signals as SG  # noqa: E402
 
@@ -244,7 +246,9 @@ def build(st, pending, ctx, watch, up_e, asof, health, fomc, cs=(), acc=()):
                      f"%{fs['hit'] * 100:.0f} doğru çıktı. Brier puanı {fs['brier']:.3f}; düşük olan daha iyidir, "
                      f"hep eşit olasılık veren tahmin 0,667 alır.</p>")
     brief_path = ROOT / "results" / "briefing.html"
-    brief_html = _sanitize(brief_path.read_text()) if brief_path.exists() else \
+    brief_raw = _sanitize(brief_path.read_text()) if brief_path.exists() else ""
+    # "3 cümlede bugün" özeti sade görünümün başında; uzun analizde tekrar etmesin
+    brief_html = re.sub(r"(?is)<h3>\s*3 cümlede bugün\s*</h3>\s*<ul>.*?</ul>", "", brief_raw) or \
         "<div class='empty'>Günlük haber ve senaryo analizi henüz etkinleştirilmedi.</div>"
 
     regime = "Yükseliş (boğa)" if ctx["spy_close"] > ctx["spy_sma200"] else "Düşüş (ayı)"
@@ -264,6 +268,8 @@ def build(st, pending, ctx, watch, up_e, asof, health, fomc, cs=(), acc=()):
         "{{CHART}}": json.dumps(chart), "{{SIGNALS}}": sig_html, "{{N_SIG}}": str(len(cs)),
         "{{ACCURACY}}": acc_html, "{{BRIEFING}}": brief_html,
     }
+    repl.update(BS.parts(st, eq, total, spy_v, E.CAPITAL, {k: m["share"] for k, m in E.SLEEVES.items()}, ctx, pending,
+                         st_last_price, up_e, asof, health, acc, brief_raw))
     for k, v in repl.items():
         tpl = tpl.replace(k, v)
     OUT.write_text(tpl)
