@@ -54,6 +54,10 @@ def update_data():
     log(f"günlük fiyatlar indiriliyor ({len(tick)} sembol)")
     D.daily_prices(tick, force=True)
     D.vix(force=True)
+    try:
+        D.usdtry(force=True)
+    except Exception as ex:  # noqa: BLE001  kur alınamazsa hesaplayıcı eski kurla çalışır
+        log(f"dolar/TL kuru alınamadı: {ex}")
     if datetime.now().weekday() == 5:
         D.fomc_dates(force=True)
     # bilançosu yakın/yeni olan hisselerin kayıtlarını yenile (sürpriz verisi için)
@@ -121,7 +125,7 @@ def strategy_health(summary_path: Path):
     return out
 
 
-def build(st, pending, ctx, watch, up_e, asof, health, fomc, cs=(), acc=()):
+def build(st, pending, ctx, watch, up_e, asof, health, fomc, cs=(), acc=(), stats=None, fx=None):
     eq = pd.DataFrame(st.equity)
     total = eq["toplam"].iloc[-1] if len(eq) else E.CAPITAL
     spy_v = eq["SPY"].iloc[-1] if len(eq) else E.CAPITAL
@@ -269,7 +273,7 @@ def build(st, pending, ctx, watch, up_e, asof, health, fomc, cs=(), acc=()):
         "{{ACCURACY}}": acc_html, "{{BRIEFING}}": brief_html,
     }
     repl.update(BS.parts(st, eq, total, spy_v, E.CAPITAL, {k: m["share"] for k, m in E.SLEEVES.items()}, ctx, pending,
-                         st_last_price, up_e, asof, health, acc, brief_raw))
+                         st_last_price, up_e, asof, health, acc, brief_raw, stats or {}, fx))
     for k, v in repl.items():
         tpl = tpl.replace(k, v)
     OUT.write_text(tpl)
@@ -296,7 +300,13 @@ def main():
         cs = SG.cards(pending, p, hist, ctx)
         SG.log_signals(cs, asof)
         acc = SG.accuracy(st.closed, hist)
-        total, ret, spy_ret = build(st, pending, ctx, watch, up_e, asof, health, D.fomc_dates(), cs, acc)
+        stats = {sl: SG.rule_stats(hist[sl], SG.BAND[sl]) for sl in SG.KEY if sl in hist}
+        try:
+            fx = D.usdtry()
+        except Exception as ex:  # noqa: BLE001
+            log(f"dolar/TL kuru okunamadı: {ex}")
+            fx = None
+        total, ret, spy_ret = build(st, pending, ctx, watch, up_e, asof, health, D.fomc_dates(), cs, acc, stats, fx)
         buys = [o.ticker for o in pending if o.side == "AL"]
         sells = [o.ticker for o in pending if o.side == "SAT"]
         msg = f"Portföy {money(total)} ({pct(ret, 2)}). Yarın: {len(buys)} alım, {len(sells)} satış."

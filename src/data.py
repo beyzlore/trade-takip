@@ -132,6 +132,18 @@ def vix(force: bool = False) -> pd.Series:
     return s
 
 
+def usdtry(force: bool = False) -> pd.Series:
+    """Dolar/TL kuru (Diamas'taki bütçe hesaplayıcısı TL'ye çevirmek için kullanır)."""
+    p = DATA / "usdtry.parquet"
+    if p.exists() and not force:
+        return pd.read_parquet(p)["usdtry"]
+    v = yf.download("TRY=X", start="2020-01-01", progress=False, auto_adjust=True)
+    s = v["Close"].squeeze().rename("usdtry").dropna()
+    s.index = pd.to_datetime(s.index).tz_localize(None)
+    s.to_frame().to_parquet(p)
+    return s
+
+
 def earnings_dates(tickers: list[str], force: bool = False) -> pd.DataFrame:
     """Bilanço açıklama tarihleri + beklenti/gerçekleşen EPS. Sütunlar: ticker, ts, eps_est, eps_act, surprise."""
     p = DATA / "earnings.parquet"

@@ -6,6 +6,7 @@ yer tutucularını doldurur. Rakamlar, eski (uzman) görünümle aynı kaynaktan
 from __future__ import annotations
 
 import html
+import json
 import re
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -320,7 +321,87 @@ def ozet(eq, asof, up_e, brief_html):
     return ps + "<div class='byline'>Robotların verisinden otomatik yazıldı</div>"
 
 
-def parts(st, eq, total, spy_v, cap, shares, ctx, pending, last_px, up_e, asof, health, acc, brief_html):
+# ---------------------------------------------------------------- güven karnesi
+KARNE_GUN = 126        # ~6 ay işlem günü
+KARNE_IS = 20          # anlamlı sayılacak en az biten iş
+
+
+def karne(st, eq, cap, shares, health, acc):
+    acc_by = {a["sleeve"]: a for a in acc}
+    days = len(eq)
+    spy_ret = eq["SPY"].iloc[-1] / cap - 1 if len(eq) else 0.0
+    rows = []
+    for s in ORDER:
+        r = ROBOT[s]
+        v = eq[s].iloc[-1] if len(eq) else cap * shares[s]
+        ret = v / (cap * shares[s]) - 1
+        cl = [c for c in st.closed if c["sleeve"] == s]
+        win = sum(c["ret"] > 0 for c in cl) / len(cl) if cl else np.nan
+        exp_win = acc_by.get(s, {}).get("exp_win", np.nan)
+        stt = health.get(s, {}).get("status", "normal")
+        items = []
+        items.append(("ok" if days >= KARNE_GUN else "wait", "En az 6 ay denendi",
+                      f"{days} / {KARNE_GUN} iş günü"))
+        items.append(("ok" if ret > spy_ret else "no", "Borsayı geçti",
+                      f"robot {yuzde(ret)}, borsa {yuzde(spy_ret)}"))
+        if s == "trend":
+            items.append(("na", "Yeterince iş bitirdi", "Bu robot çok az işlem yapar; bu madde sayılmaz"))
+        elif len(cl) < KARNE_IS:
+            items.append(("wait", "Yeterince iş bitirdi, kazanma oranı geçmişe yakın",
+                          f"{len(cl)} / {KARNE_IS} iş" + (f" · şimdilik {yuzde(win, 0, False)} (geçmişte {yuzde(exp_win, 0, False)})"
+                                                           if cl else "")))
+        else:
+            ok = win >= exp_win - 0.10
+            items.append(("ok" if ok else "no", "Yeterince iş bitirdi, kazanma oranı geçmişe yakın",
+                          f"{len(cl)} iş · {yuzde(win, 0, False)} (geçmişte {yuzde(exp_win, 0, False)})"))
+        items.append(({"normal": "ok", "dikkat": "no", "alarm": "no"}[stt], "Alarm vermedi",
+                       {"normal": "düşüşü geçmişteki en kötü düşüşün uzağında", "dikkat": "düşüşü sınıra yaklaştı",
+                        "alarm": "geçmişteki en kötü düşüşünü aştı"}[stt]))
+        say = [i for i in items if i[0] != "na"]
+        n_ok = sum(i[0] == "ok" for i in say)
+        if n_ok == len(say):
+            badge = "<span class='status good'>Karneden geçti</span>"
+        elif any(i[0] == "no" for i in say):
+            lbl = "Şimdilik geçmiyor" if any(i[0] == "wait" for i in say) else "Geçmedi"
+            badge = f"<span class='status bad'>{lbl} · {n_ok}/{len(say)}</span>"
+        else:
+            badge = f"<span class='status neutral'>Henüz erken · {n_ok}/{len(say)}</span>"
+        ico = {"ok": "✓", "no": "✕", "wait": "⏳", "na": "–"}
+        li = "".join(f"<li class='{k}'><i>{ico[k]}</i><div>{t}<small>{d}</small></div></li>" for k, t, d in items)
+        rows.append(f"<div class='card'><div class='rhead'><h3>{r['emoji']} {r['name']}</h3>{badge}</div>"
+                    f"<ul class='checks'>{li}</ul></div>")
+    return "\n".join(rows)
+
+
+# ---------------------------------------------------------------- bütçe hesaplayıcısı verisi
+def hesap(st, eq, cap, shares, last_px, stats, acc, fx):
+    if fx is None or len(eq) < 1:
+        return "null"
+    fx = fx.dropna()
+    d0, d1 = eq["date"].iloc[0], eq["date"].iloc[-1]
+    r0, r1 = fx.loc[:d0], fx.loc[:d1]
+    if not len(r0) or not len(r1):
+        return "null"
+    acc_by = {a["sleeve"]: a for a in acc}
+    sl = []
+    for s in ORDER:
+        cl = [c for c in st.closed if c["sleeve"] == s]
+        op = [ps for ps in st.positions if ps.sleeve == s]
+        stt = stats.get(s, {})
+        sl.append(dict(key=s, name=ROBOT[s]["name"], emoji=ROBOT[s]["emoji"], share=shares[s],
+                       k={"trend": 1, "pead": 10, "rsi2": 10}[s], trades=2 * len(cl) + len(op),
+                       p10=stt.get("p10"), p90=stt.get("p90"), mean=acc_by.get(s, {}).get("exp_mean")))
+    total = float(eq["toplam"].iloc[-1])
+    return json.dumps(dict(
+        r0=round(float(r0.iloc[-1]), 4), r1=round(float(r1.iloc[-1]), 4), d0=tarih(d0), d1=tarih(d1),
+        ret=total / cap - 1, spy=float(eq["SPY"].iloc[-1]) / cap - 1,
+        trades=sum(x["trades"] for x in sl), sleeves=sl,
+        prices=[round(float(last_px[ps.ticker]), 2) for ps in st.positions
+                if ps.sleeve != "trend" and np.isfinite(last_px.get(ps.ticker, np.nan))]))
+
+
+def parts(st, eq, total, spy_v, cap, shares, ctx, pending, last_px, up_e, asof, health, acc, brief_html,
+          stats=None, fx=None):
     global SIRKET
     SIRKET = sirketler()
     h = hero(eq, total, spy_v, cap)
@@ -335,4 +416,6 @@ def parts(st, eq, total, spy_v, cap, shares, ctx, pending, last_px, up_e, asof, 
         "{{B_NEXT_DAY}}": gun, "{{B_NEXT_TIME}}": saat,
         "{{B_ORDERS}}": emirler(pending, last_px),
         "{{B_HOLDS}}": elindekiler(st, last_px),
+        "{{B_KARNE}}": karne(st, eq, cap, shares, health, acc),
+        "{{B_CALC}}": hesap(st, eq, cap, shares, last_px, stats or {}, acc, fx),
     }

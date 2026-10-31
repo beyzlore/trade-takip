@@ -133,6 +133,38 @@ footer { margin-top: 22px; color: var(--muted); font-size: 12.5px; }
 .tbtns button { flex: 1; border-radius: 12px; padding: 12px; font-size: 15px; font-weight: 700; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--text); }
 .tbtns button.pri { background: var(--blue); border-color: var(--blue); color: #fff; }
 
+.status.neutral { background: var(--surface-2); color: var(--text-2); }
+.small-note { font-size: 13px; margin-top: -4px; }
+.checks { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 8px; }
+.checks li { display: grid; grid-template-columns: 24px 1fr; gap: 8px; font-size: 14.5px; }
+.checks i { font-style: normal; font-weight: 800; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; margin-top: 1px; }
+.checks .ok i { background: var(--good-bg); color: var(--good-ink); } .checks .no i { background: var(--bad-bg); color: var(--bad-ink); }
+.checks .wait i, .checks .na i { background: var(--surface-2); color: var(--text-2); }
+.checks .na { color: var(--muted); }
+.checks small { display: block; color: var(--text-2); font-size: 13px; }
+.fld { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 14.5px; margin-bottom: 10px; }
+.inp { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-2); padding: 0 12px; flex: none; }
+.inp input { width: 110px; border: 0; background: transparent; color: var(--text); font: 700 18px/1 inherit; padding: 10px 0; text-align: right; outline: none; }
+.inp em { font-style: normal; color: var(--text-2); margin-left: 6px; font-weight: 600; }
+.inp:focus-within { border-color: var(--blue); }
+#cFee, #cFx { width: 60px; font-size: 16px; }
+details.fees { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 4px 0 14px; }
+details.fees summary { cursor: pointer; padding: 10px 0; font-size: 14px; color: var(--blue); font-weight: 600; }
+details.fees .fld span:first-child { color: var(--text-2); font-size: 13.5px; }
+.hint { font-size: 12.5px; color: var(--muted); margin: 0 0 10px; }
+.cmp { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.cmp li { font-size: 14.5px; }
+.cmp .row { display: flex; justify-content: space-between; gap: 10px; }
+.cmp .row b { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.cmp .row b small { display: block; text-align: right; font-size: 12.5px; }
+.cmp .track { height: 8px; border-radius: 99px; background: var(--surface-2); margin-top: 4px; overflow: hidden; }
+.cmp .fill { height: 100%; border-radius: 99px; background: var(--grey); }
+.cmp li.me .fill { background: var(--blue); }
+.warnbox { background: var(--warn-bg); border-radius: 12px; padding: 10px 12px; margin-top: 14px; font-size: 14px; }
+.warnbox p { margin: 0 0 8px; } .warnbox p:last-child { margin: 0; }
+.range { margin-top: 14px; font-size: 14px; color: var(--text-2); }
+.range p { margin: 0 0 6px; }
+
 /* ---- uzman görünümü (eski pano) ---- */
 details.expert { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; margin-top: 26px; }
 details.expert > summary { cursor: pointer; padding: 16px; font-weight: 700; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
@@ -253,6 +285,13 @@ tbody tr:last-child td { border-bottom: 0; }
   
 </div>
 
+<h2>Güven karnesi</h2>
+<p class="sub">Bir robotu kendi paranla denemeyi düşünmeden önce görmen gerekenler. Maddelerin hepsi ✓ olmadan robot "şanslı mı, gerçekten iyi mi" bilinmez.</p>
+<div class='card'><div class='rhead'><h3>📋 Karne Avcısı</h3><span class='status neutral'>Henüz erken · 2/4</span></div><ul class='checks'><li class='wait'><i>⏳</i><div>En az 6 ay denendi<small>16 / 126 iş günü</small></div></li><li class='ok'><i>✓</i><div>Borsayı geçti<small>robot +%4,3, borsa −%2,6</small></div></li><li class='wait'><i>⏳</i><div>Yeterince iş bitirdi, kazanma oranı geçmişe yakın<small>5 / 20 iş · şimdilik %100 (geçmişte %59)</small></div></li><li class='ok'><i>✓</i><div>Alarm vermedi<small>düşüşü geçmişteki en kötü düşüşün uzağında</small></div></li></ul></div>
+<div class='card'><div class='rhead'><h3>🏷️ İndirim Avcısı</h3><span class='status bad'>Şimdilik geçmiyor · 1/4</span></div><ul class='checks'><li class='wait'><i>⏳</i><div>En az 6 ay denendi<small>16 / 126 iş günü</small></div></li><li class='no'><i>✕</i><div>Borsayı geçti<small>robot −%8,7, borsa −%2,6</small></div></li><li class='wait'><i>⏳</i><div>Yeterince iş bitirdi, kazanma oranı geçmişe yakın<small>12 / 20 iş · şimdilik %17 (geçmişte %66)</small></div></li><li class='ok'><i>✓</i><div>Alarm vermedi<small>düşüşü geçmişteki en kötü düşüşün uzağında</small></div></li></ul></div>
+<div class='card'><div class='rhead'><h3>⛵ Rüzgâr Takipçisi</h3><span class='status bad'>Şimdilik geçmiyor · 1/3</span></div><ul class='checks'><li class='wait'><i>⏳</i><div>En az 6 ay denendi<small>16 / 126 iş günü</small></div></li><li class='no'><i>✕</i><div>Borsayı geçti<small>robot −%2,7, borsa −%2,6</small></div></li><li class='na'><i>–</i><div>Yeterince iş bitirdi<small>Bu robot çok az işlem yapar; bu madde sayılmaz</small></div></li><li class='ok'><i>✓</i><div>Alarm vermedi<small>düşüşü geçmişteki en kötü düşüşün uzağında</small></div></li></ul></div>
+<p class="sub small-note">Karneden geçmek "kazandırır" demek değildir; sadece sonuçların şansa benzemediğini gösterir. Kararı yine sen verirsin.</p>
+
 <h2>Pazartesi ne olacak?</h2>
 <p class="sub">Amerikan borsası Türkiye saatiyle 17:30'da açılınca robotlar bunları yapacak.</p>
 <div class="card"><ul class='todo'><li><span class='act sell'>SAT</span><div><p>📋 Karne Avcısı satacak: <b>Travelers</b> (finans)</p><small>Neden? 10 günü doldu. Şu an <span class='pos'>+%2,4</span> kârda.</small></div></li><li><span class='act sell'>SAT</span><div><p>⛵ Rüzgâr Takipçisi borsadan çıkıp nakite geçecek.</p><small>Neden? Borsa son 100 günün ortalamasının altına indi; robot bunu "rüzgâr döndü" sayıyor.</small></div></li><li><span class='act buy'>AL</span><div><p>📋 Karne Avcısı alacak: <b>Regeneron</b> (sağlık, ilaç)</p><small>Neden? Karnesi beklenenden %24 iyi geldi, hisse o gün %13 yükseldi.</small></div></li><li><span class='act buy'>AL</span><div><p>🏷️ İndirim Avcısı alacak: <b>Palantir</b> (teknoloji)</p><small>Neden? Son günlerde sert düştü, ama uzun vadede hâlâ yükselişte.</small></div></li></ul></div>
@@ -260,6 +299,18 @@ tbody tr:last-child td { border-bottom: 0; }
 <h2>Robotların elindekiler</h2>
 <p class="sub">Yeşil kârda, kırmızı zararda (aldıkları fiyata göre).</p>
 <div class='holds'><div class='hold'><b>RTX <span class='pos'>+%3,4</span></b><span>Sanayi · 📋</span></div><div class='hold'><b>Comcast <span class='pos'>+%3,3</span></b><span>İletişim, medya · 📋</span></div><div class='hold'><b>PayPal <span class='pos'>+%2,9</span></b><span>Finans · 📋</span></div><div class='hold'><b>Travelers <span class='pos'>+%2,4</span></b><span>Finans · 📋</span></div><div class='hold'><b>3M <span class='pos'>+%1,3</span></b><span>Sanayi · 📋</span></div><div class='hold'><b>Capital One <span class='neg'>−%0,6</span></b><span>Finans · 📋</span></div><div class='hold'><b>DoorDash <span class='neg'>−%0,7</span></b><span>Tüketim, perakende · 📋</span></div><div class='hold'><b>Danaher <span class='neg'>−%0,7</span></b><span>Sağlık, ilaç · 📋</span></div><div class='hold'><b>Vertiv <span class='neg'>−%2,3</span></b><span>Sanayi · 📋</span></div><div class='hold'><b>Equinix <span class='neg'>−%2,3</span></b><span>Gayrimenkul · 📋</span></div><div class='hold'><b>Borsa sepeti <span class='neg'>−%2,7</span></b><span>500 şirket · ⛵</span></div><div class='hold'><b>Meta <span class='neg'>−%3,6</span></b><span>İletişim, medya · 🏷️</span></div></div>
+
+<h2>Benim param olsaydı?</h2>
+<p class="sub">Bütçeni yaz: robotlar 9 Ekim'de senin paranla başlasaydı bugün ne olurdu? Bu bir tavsiye ya da tahmin değil, olmuş olanın hesabı.</p>
+<div class="card" id="calc">
+  <label class="fld"><span>Bütçem</span><span class="inp"><input id="cBudget" type="text" inputmode="numeric" autocomplete="off" value="8.000"><em>TL</em></span></label>
+  <details class="fees"><summary>Masraf ayarları</summary>
+    <label class="fld"><span>Aracı kurumunun bir alım ya da satımda aldığı ücret</span><span class="inp"><input id="cFee" type="text" inputmode="decimal" value="1"><em>$</em></span></label>
+    <label class="fld"><span>TL'yi dolara (ve geri) çevirirken kaybedilen</span><span class="inp"><input id="cFx" type="text" inputmode="decimal" value="0,5"><em>%</em></span></label>
+    <p class="hint">Bunlar örnek değerler. Kendi aracı kurumunun ücretini yaz. Robotların hesabında ABD'deki temel alım-satım masrafları zaten düşüldü; bu ücretler onun üstüne eklenir.</p>
+  </details>
+  <div id="cOut"></div>
+</div>
 
 <details class="expert"><summary><span>Detaylar (uzman görünümü)<small>Olasılıklar, tablolar, uzun piyasa analizi ve kaynaklar</small></span></summary>
 <div class="xin">
@@ -272,7 +323,7 @@ tbody tr:last-child td { border-bottom: 0; }
   <div class="chip">Sonraki Fed kararı: <b>09.12.2026</b></div>
   <div class="chip">Açık pozisyon: <b>12</b> / 21 · 16 işlem günü · fark SPY'a göre +%0.27</div>
 </div>
-<p class="small muted">Piyasa verisi 30.10.2026 kapanışı · güncellendi 31.10.2026 20:00</p></section>
+<p class="small muted">Piyasa verisi 30.10.2026 kapanışı · güncellendi 31.10.2026 23:07</p></section>
 
 <section id="sinyaller"><h2>Günün sinyalleri <span class="count">2</span></h2>
 <div class="note">Bu kartlar, testlerden geçmiş kuralların bugünkü kapanışa göre ürettiği sinyallerdir. Kişisel yatırım tavsiyesi değildir. Hedef, stop ve olasılıklar aynı kuralın geçmişteki gerçek sonuçlarından hesaplanır, gelecek için garanti değildir. Güven seviyesi, geçmiş örneğin büyüklüğü ve tutarlılığına göre belirlenir; kâr olasılığı anlamına gelmez.</div>
@@ -459,6 +510,58 @@ tBack.onclick = () => { if (k) { k--; step(); } };
 document.getElementById('openTour').onclick = openTour;
 let seen = false; try { seen = localStorage.getItem('diamas_tour') === '1'; } catch (e) {}
 if (!seen) openTour();
+
+// Bütçe hesaplayıcısı: geçmişin hesabı, tahmin değil
+(function(){
+const C = {"r0": 49.3184, "r1": 49.9428, "d0": "9 Ekim", "d1": "30 Ekim", "ret": -0.023760702876148176, "spy": -0.026435148651712925, "trades": 46, "sleeves": [{"key": "pead", "name": "Karne Avc\u0131s\u0131", "emoji": "\ud83d\udccb", "share": 0.3333333333333333, "k": 10, "trades": 20, "p10": -0.05799922025143988, "p90": 0.07020650563715752, "mean": 0.007810188757630435}, {"key": "rsi2", "name": "\u0130ndirim Avc\u0131s\u0131", "emoji": "\ud83c\udff7\ufe0f", "share": 0.3333333333333333, "k": 10, "trades": 25, "p10": -0.02724322651425253, "p90": 0.03429202778245904, "mean": 0.005679628503282901}, {"key": "trend", "name": "R\u00fczg\u00e2r Takip\u00e7isi", "emoji": "\u26f5", "share": 0.3333333333333333, "k": 1, "trades": 1, "p10": -0.02187381468526524, "p90": 0.09019245137053326, "mean": 0.018784635407160626}], "prices": [396.22, 199.8, 174.34, 204.85, 232.23, 23.22, 614.99, 57.01, 232.5, 1013.7, 178.99]};
+const box = document.getElementById('calc'), out = document.getElementById('cOut');
+if (!C) { box.innerHTML = '<div class="empty">Dolar/TL kuru alınamadığı için hesaplayıcı bu gece çalışmadı.</div>'; return; }
+const iB = document.getElementById('cBudget'), iF = document.getElementById('cFee'), iX = document.getElementById('cFx');
+const tl = v => Math.round(v).toLocaleString('tr-TR') + ' TL';
+const usd = v => v.toLocaleString('tr-TR', {maximumFractionDigits: v < 100 ? 2 : 0}) + ' $';
+const sg = v => (v < 0 ? '−' : '+') + Math.abs(Math.round(v)).toLocaleString('tr-TR') + ' TL';
+const pc = (v, d = 1) => '%' + Math.abs(v * 100).toLocaleString('tr-TR', {minimumFractionDigits: d, maximumFractionDigits: d});
+const dec = s => parseFloat(String(s).replace(',', '.'));
+try { const s = JSON.parse(localStorage.getItem('diamas_calc') || 'null'); if (s) { iB.value = s.b; iF.value = s.f; iX.value = s.x; } } catch (e) {}
+function run(){
+  const B = parseInt(String(iB.value).replace(/\D/g, ''), 10), fee = Math.max(0, dec(iF.value) || 0), fx = Math.max(0, dec(iX.value) || 0) / 100;
+  try { localStorage.setItem('diamas_calc', JSON.stringify({b: iB.value, f: iF.value, x: iX.value})); } catch (e) {}
+  if (!B) { out.innerHTML = '<div class="empty">Bütçeni TL olarak yaz, mesela 8.000.</div>'; return; }
+  const u0 = B * (1 - fx) / C.r0, toTL = d => d * C.r1 * (1 - fx);
+  const rows = [
+    {me: true, t: '🤖 Robotları taklit etseydin', v: toTL(u0 * (1 + C.ret) - C.trades * fee), n: `${C.trades} alım-satım, her biri ${usd(fee)} ücret`},
+    {t: '📈 Borsayı alıp bekleseydin', v: toTL(u0 * (1 + C.spy) - 2 * fee), n: '1 alım, 1 satış'},
+    {t: '💵 Sadece dolar alıp bekleseydin', v: toTL(u0), n: `kur ${C.r0.toLocaleString('tr-TR')} → ${C.r1.toLocaleString('tr-TR')}`},
+    {t: '🏦 TL olarak kenarda tutsaydın', v: B, n: 'bankadaki faiz hesaba katılmadı'}
+  ].sort((a, b) => b.v - a.v);
+  const hi = rows[0].v, lo = rows[rows.length - 1].v, w = v => 12 + 88 * (v - lo) / ((hi - lo) || 1);
+  let h = `<p class="lbl" style="margin:0 0 10px">${C.d0} ile ${C.d1} arası, masraflar düşülmüş halde:</p><ul class="cmp">`;
+  h += rows.map(r => `<li class="${r.me ? 'me' : ''}"><div class="row"><span>${r.t}<small class="lbl" style="display:block">${r.n}</small></span>`
+    + `<b>${tl(r.v)}<small class="${r.v - B > 0.5 ? 'pos' : (r.v - B < -0.5 ? 'neg' : 'lbl')}">${sg(r.v - B)}</small></b></div>`
+    + `<div class="track"><div class="fill" style="width:${w(r.v).toFixed(1)}%"></div></div></li>`).join('');
+  h += `</ul><div class="verdict ${rows[0].me ? 'good' : 'warn'}"><span class="light ${rows[0].me ? 'good' : 'warn'}"></span><div>`
+    + `<b>Bu dönemde en çok parayı "${rows[0].t.slice(3)}" bıraktı.</b> Robotlar ${rows.findIndex(r => r.me) + 1}. sırada. `
+    + `Dönem çok kısa; bir sonraki ay sıralama tamamen değişebilir.</div></div>`;
+  // küçük bütçe gerçeği
+  const slot = B * (1 - fx) / C.r1 / 3 / 10, pricey = C.prices.filter(p => p > slot).length;
+  const pead = C.sleeves.find(s => s.key === 'pead'), feeShare = slot > 0 ? 2 * fee / slot : 0;
+  h += `<div class="warnbox"><p>Robotlar parayı 3'e, iki robot da kendi payını 10 hisseye böler. Senin bütçende bir hisseye yaklaşık <b>${usd(slot)}</b> (${tl(slot * C.r1)}) düşer.</p>`;
+  if (pricey) h += `<p>Robotların elindeki ${C.prices.length} hisseden <b>${pricey} tanesinin tek bir tanesi bile bundan pahalı.</b> Bunları taklit etmek için hissenin bir parçasını satan (kesirli hisse) bir aracı kurum gerekir.</p>`;
+  if (fee > 0 && pead && pead.mean != null) h += `<p>Bir işin alım+satım ücreti ${usd(2 * fee)}; bu, o işe ayırdığın paranın <b>${pc(feeShare)}</b> kadarı. Karne Avcısı'nın bir işi geçmişte ortalama ${pc(pead.mean)} kazandırıyordu.`
+    + (feeShare > pead.mean ? ' <b>Yani bu bütçeyle ücret, ortalama kazançtan büyük:</b> robot kâr etse bile cebine zarar kalır.' : '') + `</p>`;
+  h += `</div><div class="range">`;
+  for (const s of C.sleeves) {
+    if (s.key === 'trend' || s.p10 == null) continue;
+    const m = slot * C.r1;
+    h += `<p>${s.emoji} <b>${s.name}:</b> senin payınla bir iş (${tl(m)}) geçmişte 10 seferin 8'inde ${sg(s.p10 * m)} ile ${sg(s.p90 * m)} arasında bitti.</p>`;
+  }
+  h += `<p class="hint" style="margin:4px 0 0">Hepsi geçmişin hesabı. Gelecekte ne olacağını kimse bilmez.</p></div>`;
+  out.innerHTML = h;
+}
+[iB, iF, iX].forEach(el => el.addEventListener('input', run));
+iB.addEventListener('blur', () => { const v = parseInt(String(iB.value).replace(/\D/g, ''), 10); if (v) iB.value = v.toLocaleString('tr-TR'); });
+run();
+})();
 
 // Grafik: robotlar ve borsa, uçlarında isimleri yazılı
 (function(){
